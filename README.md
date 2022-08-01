@@ -12,25 +12,25 @@
 ---
 
 1. Dockerfile
-	- [] Create Dockerfiles
+	- [ ] Create Dockerfiles
 
 2. Persistent Data
-	- [] Data Volumes
-	- [] Bind Mounts
+	- [ ] Data Volumes
+	- [ ] Bind Mounts
 
 3. Docker Compose
-	- [] Docker-Compose.yml
+	- [ ] Docker-Compose.yml
 
 4. Docker Swarm
-	- [] Swarm create
-	- [] Secrets
-	- [] Persistent Data
-	- [] Stack
+	- [ ] Swarm create
+	- [ ] Secrets
+	- [ ] Persistent Data
+	- [ ] Stack
 
 5. Registries
-	- [] Local registry
-	- [] Secure local registry
-	- [] Local registry user authentication
+	- [ ] Local registry
+	- [ ] Secure local registry
+	- [ ] Local registry user authentication
 
 ---
 
