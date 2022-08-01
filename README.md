@@ -1,7 +1,7 @@
 # Docker
 
 ## Objective
-	* practice Docker
+* practice Docker
 
 ---
 
