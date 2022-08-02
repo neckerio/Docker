@@ -6,8 +6,10 @@
 ---
 
 ## Start up
-* Vagrantfiles
-* Ansible playbooks
+* [Vagrantfile](Vagrantfile)
+* [docker.yml](docker.yml)
+* [inventory](inventory)
+* [ansible.cfg](ansible.cfg)
 
 ---
 

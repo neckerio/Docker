@@ -1,0 +1,138 @@
+---
+- name: docker startup packages and echoes 
+  hosts: all
+  tasks:
+    - name: apt
+      apt:
+        state: latest
+        name:
+          - python3
+
+    - name: lineinfile .bashrc
+      lineinfile:
+        line: "set -o vi"
+        path: /home/vagrant/.bashrc
+        state: present
+
+    - name: lineinfile .vimrc
+      lineinfile:
+        line: "{{ item }}"
+        path: /home/vagrant/.vimrc
+        state: present
+        create: True
+        owner: vagrant
+        group: vagrant
+      loop:
+        - "filetype plugin on"
+        - "autocmd Filetype yaml setlocal ai sw=2 ts=2 et"
+        - "set number relativenumber"
+
+    - name: lineinfile /etc/hosts
+      lineinfile:
+        line: "{{ item }}"
+        path: /etc/hosts
+        state: present
+      loop:
+        - "192.168.56.10  doc1"
+        - "192.168.56.11  doc2"
+        - "192.168.56.12  doc3"
+
+- name: install docker
+  hosts: all
+  tasks:
+    - name: apt
+      apt:
+        update_cache: True
+        state: latest
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+
+    - name: mkdir, apt keyrings for docker
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+    
+    - name: uri/curl docker gpg
+      uri:
+        return_content: True
+        url: "https://download.docker.com/linux/ubuntu/gpg"
+      register: uri
+
+    - name: shell until I figure out how to gpg in ansible
+      shell:
+        cmd: "echo '{{ uri.content }}' | gpg --dearmor > /etc/apt/keyrings/docker.gpg"
+
+    - name: lineinfile 
+      lineinfile:
+        path: /etc/apt/sources.list.d/docker.list
+        create: True
+        line: > 
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg]  
+          https://download.docker.com/linux/ubuntu focal stable
+
+    - name: apt update
+      apt:
+        update_cache: True
+        state: latest
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+
+    - name: add vagrant to docker group
+      user:
+        name: vagrant
+        append: True
+        groups: docker
+
+
+## Commented out until I figure out how to install ssh-keys for doc1. Maybe a separate
+## script?
+
+# - name: install ssh keys
+#   hosts: all
+#   tasks:
+#     - name: create a directory with proper permissions for keys
+#       file:
+#         state: directory
+#         mode: '0755'
+#         path: /home/vagrant/ssh
+#         owner: vagrant
+#         group: vagrant
+
+#     - name: user ssh-keygen
+#       user:
+#         name: vagrant
+#         state: present
+#         generate_ssh_key: True
+#         ssh_key_comment: "doc1 -> doc2/3"
+#         ssh_key_file: /home/vagrant/ssh
+
+#     - name: chmod pub key
+#       file:
+#         state: touch
+#         path: /home/vagrant/ssh/id_rsa.pub
+#         mode: '0644'
+#         owner: vagrant
+#         group: vagrant
+
+#     - name: chmod priv key
+#       file:
+#         state: touch
+#         path: /home/vagrant/ssh/id_rsa
+#         mode: '0600'
+#         owner: vagrant
+#         group: vagrant
+
+# - name: transfer ssh keys on doc2/3
+#   hosts: all
+#   tasks:
+#     - name: authorized_key and lookup
+#       authorized_key: 
+#         key: "{{ lookup('file', '/home/vagrant/ssh/id_rsa.pub') }}"
+#         user: vagrant
+#         state: present

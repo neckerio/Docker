@@ -1,0 +1,15 @@
+[doc1]
+192.168.50.10
+
+[doc2]
+192.168.50.11
+
+[doc3]
+192.168.50.12
+
+[remote:children]
+doc2
+doc3
+
+[remote:vars]
+ansible_python_interpreter = /usr/bin/python3
