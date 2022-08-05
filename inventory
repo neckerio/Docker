@@ -1,11 +1,11 @@
 [doc1]
-192.168.50.20
+192.168.56.20
 
 [doc2]
-192.168.50.21
+192.168.56.21
 
 [doc3]
-192.168.50.22
+192.168.56.22
 
 [remote:children]
 doc2
@@ -13,3 +13,4 @@ doc3
 
 [remote:vars]
 ansible_python_interpreter = /usr/bin/python3
+ansible_ssh_private_key_file = /home/vagrant/.ssh/id_rsa
