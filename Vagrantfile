@@ -35,26 +35,26 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider :libvirt do |v|
-    v.memory = 4048
-    v.cpus = 4
+    v.memory = 2048
+    v.cpus = 2
   end
 
 # server 1
 config.vm.define "doc1" do |app|
   app.vm.hostname = "doc1"
-  app.vm.network :private_network, ip: "192.168.56.10"
+  app.vm.network :private_network, ip: "192.168.56.20"
 end
 
 # server 2
 config.vm.define "doc2" do |app|
   app.vm.hostname = "doc2"
-  app.vm.network :private_network, ip: "192.168.56.11"
+  app.vm.network :private_network, ip: "192.168.56.21"
 end
 
 # server 3
 config.vm.define "doc3" do |app|
   app.vm.hostname = "doc3"
-  app.vm.network :private_network, ip: "192.168.56.12"
+  app.vm.network :private_network, ip: "192.168.56.22"
 end
 
 
