@@ -33,9 +33,9 @@
         path: /etc/hosts
         state: present
       loop:
-        - "192.168.56.10  doc1"
-        - "192.168.56.11  doc2"
-        - "192.168.56.12  doc3"
+        - "192.168.56.20  doc1"
+        - "192.168.56.21  doc2"
+        - "192.168.56.22  doc3"
 
 - name: install docker
   hosts: all
